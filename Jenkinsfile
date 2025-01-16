@@ -11,7 +11,7 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t Nancy2209/star-agile-banking-finance:v1 .'
+                    sh 'docker build -t Nancy2209/star-agile-banking-finance_project:v1 .'
                     sh 'docker images'
                 }
             }
@@ -20,7 +20,7 @@ pipeline {
         
      stage('Deploy') {
             steps {
-                sh 'sudo docker run -itd --name My-first-containe21211 -p 8083:8081 aNancy2209/star-agile-banking-finance:v1'
+                sh 'sudo docker run -itd --name My-container21211 -p 8083:8081 Nancy2209/star-agile-banking-finance_project:v1'
                   
                 }
             }
