@@ -1,42 +1,29 @@
-pipeline{
+pipeline {
     agent any
     stages{
-        stage('checkout the code from github'){
+        stage('build project'){
             steps{
-                 git url: 'https://github.com/Nancy2209/star-agile-banking-finance/'
-                 echo 'github url checkout'
+                git url:'hhttps://github.com/Nancy2209/star-agile-banking-finance/', branch: "master"
+                sh 'mvn clean package'
+              
             }
         }
-        stage('codecompile'){
+        stage('Build docker image'){
             steps{
-                echo 'starting compiling'
-                sh 'mvn compile'
+                script{
+                    sh 'docker build -t Nancy2209/star-agile-banking-finance:v1 .'
+                    sh 'docker images'
+                }
             }
         }
-        stage('codetesting'){
-            steps{
-                sh 'mvn test'
+         
+        
+     stage('Deploy') {
+            steps {
+                sh 'sudo docker run -itd --name My-first-containe21211 -p 8083:8081 aNancy2209/star-agile-banking-finance:v1'
+                  
+                }
             }
-        }
-        stage('qa'){
-            steps{
-                sh 'mvn checkstyle:checkstyle'
-            }
-        }
-        stage('package'){
-            steps{
-                sh 'mvn package'
-            }
-        }
-        stage('run dockerfile'){
-          steps{
-               sh 'docker build -t nancyimg .'
-           }
-         }
-        stage('port expose'){
-            steps{
-                sh 'docker run -dt -p 8091:8091 --name c000 nancyimg'
-            }
-        }   
+        
     }
 }
